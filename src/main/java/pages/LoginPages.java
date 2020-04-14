@@ -1,29 +1,44 @@
 package pages;
 
-import libs.ActionWithWebElement;
-import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
+import libs.ConfigClass;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import parentPage.ParentPage;
+import org.junit.Assert;
 
 
-public class LoginPages {
-    protected WebDriver webDriver;
-    protected Logger logger = Logger.getLogger(getClass());
-    protected ActionWithWebElement actionWithWebElement;
-    By inputLoginName = By.name("_username");
-    By inputPasswordName = By.name("_password");
-    By inputButtonXpath = By.xpath(".//button[@type = 'submit']");
-    String url = "\"http://v3.test.itpmgroup.com\"";
+public class LoginPages extends ParentPage {
 
-    public LoginPages(WebDriver webDriver){
-        this.webDriver = webDriver;
-        actionWithWebElement = new ActionWithWebElement(webDriver);
+    @FindBy(name = "_username")
+    private WebElement inputLoginName;
+
+    @FindBy(name = "_password")
+    private WebElement inputPasswordName;
+
+    @FindBy(xpath = ".//button[@type = 'submit']")
+    private WebElement inputButtonXpath;
+
+    @FindBy(xpath = ".//div[@class='login-box-body']")
+    private WebElement loginBox;
+
+    public LoginPages(WebDriver webDriver) {
+        super(webDriver);
+    }
+
+    public void openPageLogin() {
+        try{
+            webDriver.get(ConfigClass.getCfgValue("base_url")+ "/login");
+            logger.info("Page login was opened");
+        }catch(Exception e) {
+            logger.error("Can not open URL");
+            Assert.fail("Can not open URL");
+        }
     }
 
     public  void openPage(){
         try {
-            webDriver.get(url);
-
+            webDriver.get(ConfigClass.getCfgValue("base_url"));
         }catch (Exception e){
             e.printStackTrace();
 
@@ -33,15 +48,22 @@ public class LoginPages {
     public void inputLogin(String text){
         actionWithWebElement.enterTextToField(inputLoginName, text);
     }
+
     public void inputPassword(String text){
         actionWithWebElement.enterTextToField(inputPasswordName , text);
     }
-    public void clickButton(){
-        actionWithWebElement.cklickButton(inputButtonXpath);
+
+    public void clickSubmitButton(){
+        actionWithWebElement.clickButton(inputButtonXpath);
     }
+
+    public boolean isLoginBoxRefreshed(){
+        return actionWithWebElement.isElementDisplay(loginBox);
+    }
+
     public void LoginToPage(String login, String pass){
         inputLogin(login);
         inputPassword(pass);
-        clickButton();
+        clickSubmitButton();
     }
 }

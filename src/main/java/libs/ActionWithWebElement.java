@@ -3,9 +3,11 @@ package libs;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 public class ActionWithWebElement {
+
     WebDriver webDriver;
     Logger logger = Logger.getLogger(getClass());
 
@@ -13,10 +15,10 @@ public class ActionWithWebElement {
         this.webDriver = webDriver;
     }
 
-    public void enterTextToField(By element, String text) {
+    public void enterTextToField(WebElement element, String text) {
         try {
-            webDriver.findElement(element).clear();
-            webDriver.findElement(element).sendKeys(text);
+            element.clear();
+            element.sendKeys(text);
             logger.info("Warn");
         } catch (Exception e) {
             e.printStackTrace();
@@ -25,9 +27,9 @@ public class ActionWithWebElement {
 
     }
 
-    public void cklickButton(By element) {
+    public void clickButton(WebElement element) {
         try {
-            webDriver.findElement(element).click();
+            element.click();
             logger.info("");
         } catch (Exception e) {
             e.printStackTrace();
@@ -35,18 +37,19 @@ public class ActionWithWebElement {
         }
     }
 
-    public boolean isElementDisplay(By element) {
+    public boolean isElementDisplay(WebElement element) {
         try {
-            return webDriver.findElement(element).isDisplayed();
+            return element.isDisplayed();
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("");
             return false;
         }
     }
-    public boolean isElementEnabled(By element){
+
+    public boolean isElementEnabled(WebElement element){
         try {
-            return webDriver.findElement(element).isEnabled();
+            return element.isEnabled();
         }catch (Exception e){
             e.printStackTrace();
             logger.warn("");
@@ -54,15 +57,15 @@ public class ActionWithWebElement {
         }
     }
 
-    public void SetCheckBox(By element, String state){
+    public void setCheckBox(WebElement element, boolean state){
         try {
-            //TODO check
-            if(webDriver.findElement(element).isSelected()){
-                //== state
+
+            if (element.isSelected() == state) {
+
             }else {
-                webDriver.findElement(element).click();
+                element.click();
             }
-            logger.info(""+state);
+            logger.info("" + state);
         }catch (Exception e){
             e.printStackTrace();
             logger.error("");
@@ -71,8 +74,8 @@ public class ActionWithWebElement {
 
     }
 
-    private void selectElementFromDD(By element, String itemName){
-        Select dropDownValue = new Select(webDriver.findElement(element));
+    public void selectElementFromDD(WebElement element, String itemName){
+        Select dropDownValue = new Select(element);
         try {
             dropDownValue.selectByVisibleText(itemName);
         }catch (Exception e){

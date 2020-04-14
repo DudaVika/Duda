@@ -16,8 +16,9 @@ public class LoginTest {
         return new ChromeDriver();
     }
 
+
     @Test
-    public void validlogin() {
+    public void validLogin() {
         webdriver.get("http://v3.test.itpmgroup.com");
         webdriver.findElement(By.name("_username")).clear();
         webdriver.findElement(By.name("_username")).sendKeys("Student");
