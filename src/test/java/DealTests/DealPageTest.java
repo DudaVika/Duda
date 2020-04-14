@@ -1,4 +1,4 @@
-package LoginTests;
+package DealTests;
 
 import org.junit.Before;
 import org.junit.Test;
